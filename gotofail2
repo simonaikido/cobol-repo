@@ -1,0 +1,8 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. TESTGOTO.
+
+       PROCEDURE DIVISION.
+           GOTO END-SECTION.
+
+       END-SECTION.
+           STOP RUN.
