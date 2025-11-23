@@ -1,0 +1,30 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CMDINJECT-DEMO.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  RAW-PATH        PIC X(120).
+       01  FULL-CMD        PIC X(240).
+       01  EXIT-STATUS     PIC 9(4) COMP.
+
+       PROCEDURE DIVISION.
+       MAIN-SECTION.
+
+           *> Get a directory path from the user
+           DISPLAY "Enter directory to list: " WITH NO ADVANCING
+           ACCEPT RAW-PATH
+
+           *> ❌ Non-compliant:
+           *> User input directly appended to a shell command
+           STRING "ls -l " DELIMITED BY SIZE
+                  RAW-PATH   DELIMITED BY SIZE
+                  INTO FULL-CMD
+
+           *> ❌ Executes attacker-controlled string
+           CALL "SYSTEM" USING FULL-CMD RETURNING EXIT-STATUS
+
+           IF EXIT-STATUS NOT = 0
+               DISPLAY "Command failed or returned non-zero."
+           END-IF
+
+           STOP RUN.
