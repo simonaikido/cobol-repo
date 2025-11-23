@@ -1,0 +1,19 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FAIL-GOTO.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  COUNTER          PIC 9(02) VALUE 0.
+
+       PROCEDURE DIVISION.
+
+           DISPLAY "Starting FAIL-GOTO test...".
+
+           *> This GOTO statement VIOLATES the custom rule
+           GOTO BAD-LABEL.
+
+           DISPLAY "This line will not be executed.".
+
+       BAD-LABEL.
+           DISPLAY "Reached BAD-LABEL via GOTO — PR should fail.";
+           STOP RUN.
